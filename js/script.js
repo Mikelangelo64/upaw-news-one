@@ -247,6 +247,22 @@ $(document).ready(function(){
         })    
     }
 
+    //filters-dropdown
+    $('.report-filter__list').fadeOut(0)
+    if(document.body.clientWidth > 830){
+        $('.report-filter').hover(function(e){
+            $(this).toggleClass('active')
+            const currentList = $(this).children('.report-filter__list')
+            $(currentList).fadeToggle(300)
+        })
+    }else {
+        $('.report-filter').click(function(e){
+            $(this).toggleClass('active')
+            const currentList = $(this).children('.report-filter__list')
+            $(currentList).fadeToggle(300)
+        })
+    }
+
     //swipers
 
     //swiper-projects
@@ -420,7 +436,44 @@ $(document).ready(function(){
         $(this).next().addClass('_next-active')
     })
 
-    var swiperSteps = new Swiper(".swiper.banner-news-swiper", {
+    var swiperStepsParthner = new Swiper(".swiper.how-be-parthner-list", {
+
+        pagination: {
+          el: ".how-be-parthner-list__pagination__container.swiper-pagination",
+          type: "progressbar",
+        },
+        // navigation: {
+        //   nextEl: ".projects__btns__container .swiper-button-next",
+        //   prevEl: ".projects__btns__container .swiper-button-prev",
+        // },
+
+        slidesPerView: 1,
+        spaceBetween: 30,
+        freeMode: true,
+        loop: false,
+        //grabCursor: true,
+
+        breakpoints: {
+            1020:{
+                //freeMode: false,
+                spaceBetween: 42,
+                slidesPerView: 2,
+                centeredSlides: false,
+                grabCursor: true,
+                //slidesPerGroup: 1,
+            },
+            1175:{
+                slidesPerView: 3,
+                centeredSlides: false,
+                grabCursor: true,
+                pagination: false,
+                //slidesPerGroup: 1,
+
+            },
+        }
+      });
+
+    var swiperNewsBanner = new Swiper(".swiper.banner-news-swiper", {
 
         pagination: {
           el: ".banner-news__pagination__container.swiper-pagination",
@@ -430,5 +483,27 @@ $(document).ready(function(){
         spaceBetween: 0,
         freeMode: false,
         loop: false,
+        on:{
+            init: setCurrentCounter,
+            slideChange: counterChange,
+        }
     })
+
+    function setCurrentCounter(swiper){
+        let currentCounts = document.querySelectorAll('.banner-news__counter .current')
+        let allCounts = document.querySelectorAll('.banner-news__counter .all')
+
+        let index = swiper.activeIndex + 1;
+        let swiperLength = swiper.slides.length
+
+        currentCounts.forEach(currentCount => currentCount.innerHTML = index)
+        allCounts.forEach( allCount => allCount.innerHTML = swiperLength)
+    }
+    function counterChange(swiper) {
+        let currentCounts = document.querySelectorAll('.banner-news__counter .current')
+        let index = swiper.activeIndex + 1;
+        currentCounts.forEach(currentCount => currentCount.innerHTML = index)
+    }
+
+
 })
